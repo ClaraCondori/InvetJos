@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Provider;
 
 class providerController extends Controller
 {
@@ -21,15 +22,32 @@ class providerController extends Controller
     public function create()
     {
         //
-        return "Nuevo Proveedor";
+        return view('sistema.addprovider');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+    
+        // Validar los datos del formulario
+    $validacion = $request->validate([
+        'nombre' => 'required|string|max:75', // Regla válida
+        'correo' => 'required|email|unique:providers,correo|max:75',  // Regla válida
+        'contacto' => 'required|string|max:75', // Regla válida
+        'telefono' => 'required|numeric|min:15', // Regla válida
+    ]);
+
+    // Crear un nuevo proveedor
+    $provider = new Provider();
+    $provider->nombre = $request->input('nombre');
+    $provider->correo = $request->input('correo');
+    $provider->contacto = $request->input('contacto');
+    $provider->telefono = $request->input('telefono');
+    $provider->save();
+
+    // Redirigir de vuelta con un mensaje de éxito
+    return back()->with('message', 'Proveedor creado correctamente.');
     }
 
     /**
