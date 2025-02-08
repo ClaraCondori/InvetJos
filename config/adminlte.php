@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>MULTITIENDAS</b>JOSELITO',
+    'logo' => '<b>MULTITIENDAS</br>JOSELITO',
     'logo_img' => 'vendor/adminlte/dist/img/logo_redondo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -137,8 +137,8 @@ return [
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------

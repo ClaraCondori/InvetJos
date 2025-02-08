@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware([
@@ -25,12 +25,4 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
-Route::get('/test-email', function () {
-    Mail::raw('Este es un correo de prueba desde Laravel', function ($message) {
-        $message->to('condorihclara62@gmail.com')
-                ->subject('Prueba de Mailtrap');
-    });
-
-    return 'Correo enviado';
 });
