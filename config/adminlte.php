@@ -338,41 +338,50 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        ['header' => 'OPCIONES'],
+        //[
+            //'text' => 'Lista de Proveedores',
+            //'route' => 'provider.index',
+            //'icon' => 'fas fa-fw fa-user',
+        //],
+        
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'PROVEEDORES',
+            'icon' => 'fas fa-fw fa-truck',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Lista de Proveedores',
+                    'route' => 'provider.index',
+                    'icon' => 'fas fa-fw fa-list',
                 ],
+                //[
+                    //'text' => 'level_one',
+                    //'url' => '#',
+                    //'submenu' => [
+                        //[
+                            //'text' => 'level_two',
+                          //  'url' => '#',
+                        //],
+                        //[
+                            //'text' => 'level_two',
+                            //'url' => '#',
+                            //'submenu' => [
+                                //[
+                                    //'text' => 'level_three',
+                                  //  'url' => '#',
+                                //],
+                              //  [
+                            //        'text' => 'level_three',
+                          //          'url' => '#',
+                        //        ],
+                      //      ],
+                    //    ],
+                  //  ],
+                //],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Nuevo Proveedor',
+                    'route' => 'provider.create',
+                    'icon' => 'fas fa-fw fa-file',
                 ],
             ],
         ],

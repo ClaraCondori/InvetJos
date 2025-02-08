@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\providerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,5 +26,5 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::resource('/provider', providerController::class)-> name ('provider');
+    Route::resource('/provider', providerController::class)-> names ('provider');
 });
