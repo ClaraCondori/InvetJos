@@ -12,8 +12,8 @@ class providerController extends Controller
      */
     public function index()
     {
-        //
-        return "Lista de Proveedores";
+        $provider= Provider::all();
+        return view( 'sistema.listprovider', compact('provider'));
     }
 
     /**
