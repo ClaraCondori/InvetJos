@@ -1,11 +1,8 @@
 @extends('adminlte::page')
-
-@section('title', 'Dashboard')
-
+@section('title', 'Proveedores')
 @section('content_header')
     <h1>TODOS LOS PROVEEDORES</h1>
 @stop
-
 @section('content')
     <p>Lista de proveedores</p>
     <div class="card">
@@ -33,7 +30,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 $config = [
     'language' => [
         'url' => 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-    ],
+    ]
 ];
 @endphp
 
@@ -46,9 +43,13 @@ $config = [
             <td>{{ $providers->correo }}</td>
             <td>{{ $providers->contacto }}</td>
             <td>{{ $providers->telefono }}</td>
-            <td>{!! $btnDetails !!}
-                
-                {!! $btnDelete !!}</td>
+            <td>{!! $btnEdit !!}
+            <form style="display: inline" action="{{ route('provider.destroy', $providers) }}" method="POST" class="formEliminar">
+                @csrf 
+                @method('delete')
+                {!! $btnDelete !!}
+            </form>
+                </td>
         </tr>
     @endforeach
 </x-adminlte-datatable>
@@ -62,5 +63,26 @@ $config = [
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
-@stop]
+    
+<script>
+        $(document).ready(function() {
+            $('formEliminar').submit(function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: "¿Desea eliminar el registro?",
+                    text: "¡Esta acción no se puede deshacer!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@stop

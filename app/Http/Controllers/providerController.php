@@ -80,5 +80,8 @@ class providerController extends Controller
     public function destroy(string $id)
     {
         //
+        $proveedor = Provider::find($id);
+        $proveedor->delete();
+        return back();
     }
 }
