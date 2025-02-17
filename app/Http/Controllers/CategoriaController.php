@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
@@ -12,6 +13,7 @@ class CategoriaController extends Controller
     public function index()
     {
         //
+        return "lista categorias";
     }
 
     /**
@@ -20,6 +22,7 @@ class CategoriaController extends Controller
     public function create()
     {
         //
+        return view('sistema.addcategoria');
     }
 
     /**
@@ -28,6 +31,17 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
+        $validacion = $request->validate([
+            'nombre_cat' => 'required|string', // Regla válida
+        ]);
+    
+        // Crear un nuevo proveedor
+        $categoria = new Categoria();
+        $categoria->nombre_cat = $request->input('nombre_cat');
+        $categoria->save();
+    
+        // Redirigir de vuelta con un mensaje de éxito
+        return back()->with('message', 'Categoria creada correctamente.');
     }
 
     /**

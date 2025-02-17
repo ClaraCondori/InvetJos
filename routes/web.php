@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\providerController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\RolController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,4 +29,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
     Route::resource('/provider', providerController::class)-> names ('provider');
+    Route::resource('/categoria', CategoriaController::class)->names('categoria');
+    Route::resource('/rol', RolController::class)-> names ('rol');
 });

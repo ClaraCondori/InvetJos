@@ -385,6 +385,52 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'PRODUCTOS',
+            'icon' => 'fas fa-fw fa-store',
+            'submenu' => [
+                [
+                    'text' => 'Categorias',
+                    'icon' => 'fas fa-fw fa-plus',
+                    'submenu' => [
+                        [
+                            'text' => 'Lista de Categoria',
+                            'route' => 'categoria.index',
+                            'icon' => 'fas fa-fw fa-bars',
+                        ],
+                        [
+                            'text' => 'Nueva Categoria',
+                            'route' => 'categoria.create',
+                            'icon' => 'fas fa-fw fa-file',
+                        ],
+                        //[
+                            //'text' => 'level_two',
+                            //'url' => '#',
+                            //'submenu' => [
+                                //[
+                                    //'text' => 'level_three',
+                                    //'url' => '#',
+                                //],
+                                //[
+                                    //'text' => 'level_three',
+                                    //'url' => '#',
+                                //],
+                            //],
+                        //],
+                    ],
+                ],
+                [
+                    'text' => 'Lista de Productos',
+                    'route' => 'provider.index',
+                    'icon' => 'fas fa-fw fa-bars',
+                ],
+                [
+                    'text' => 'Nuevo Producto',
+                    'route' => 'provider.create',
+                    'icon' => 'fas fa-fw fa-file',
+                ],
+            ],
+        ],
         ['header' => 'labels'],
         [
             'text' => 'important',
