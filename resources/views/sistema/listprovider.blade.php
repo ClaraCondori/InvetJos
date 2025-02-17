@@ -17,9 +17,7 @@ $heads = [
     ['label' => 'Actions', 'no-export' => true, 'width' => 20],
 ];
 
-$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
+$btnEdit = '';
 $btnDelete = '<button type="submit"class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
                     <i class="fa fa-lg fa-fw fa-trash"></i>
                 </button>';
@@ -43,7 +41,9 @@ $config = [
             <td>{{ $providers->correo }}</td>
             <td>{{ $providers->contacto }}</td>
             <td>{{ $providers->telefono }}</td>
-            <td>{!! $btnEdit !!}
+            <td> <a href= "{{route('provider.edit', $providers)}}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                <i class="fa fa-lg fa-fw fa-pen"></i>
+            </a>
             <form style="display: inline" action="{{ route('provider.destroy', $providers) }}" method="POST" class="formEliminar">
                 @csrf 
                 @method('delete')

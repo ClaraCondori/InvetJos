@@ -7,18 +7,14 @@
 @stop
 
 @section('content')
-    <p>Ingrese los datos del nuevo proveedor</p>
+    <p>Datos del proveedor</p>
     <div class="card">
-    @if (session()->has('message'))
-        <x-adminlte-alert theme="success" title="Éxito">
-            {{ session('message') }}
-        </x-adminlte-alert>
-    @endif
         <div class="card-body">
-        <form action="{{ route('provider.store') }}" method="POST">
+        <form action="{{ route('provider.update', $provider) }}" method="POST">
         @csrf
+        @method('PUT')
         <!-- Primer input -->
-        <x-adminlte-input name="nombre" label="Proveedor" placeholder="Nombre Proveedor" label-class="text-lightblue" value="{{ old('nombre') }}">
+        <x-adminlte-input name="nombre" label="Proveedor" label-class="text-lightblue" value="{{ $provider->nombre}}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class="fas fa-users text-lightblue"></i>
@@ -27,7 +23,7 @@
         </x-adminlte-input>
 
         <!-- Segundo input -->
-        <x-adminlte-input name="correo" label="Correo electronico" placeholder="proveedor@example.com" label-class="text-lightblue" value="{{ old('correo') }}">
+        <x-adminlte-input name="correo" label="Correo electronico" label-class="text-lightblue" value="{{ $provider->correo }}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class="fas fa-envelope text-lightblue"></i>
@@ -36,7 +32,7 @@
         </x-adminlte-input>
 
         <!-- Tercer input -->
-        <x-adminlte-input name="contacto" label="Contacto" placeholder="Nombre de contacto" label-class="text-lightblue" value="{{ old('contacto') }}">
+        <x-adminlte-input name="contacto" label="Contacto"  label-class="text-lightblue" value="{{ $provider->contacto }}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class="fas fa-user text-lightblue"></i>
@@ -45,7 +41,7 @@
         </x-adminlte-input>
 
         <!-- Cuarto input -->
-        <x-adminlte-input name="telefono" label="Telefono de Contacto" placeholder="Numero de telefono" label-class="text-lightblue" value="{{ old('telefono') }}">
+        <x-adminlte-input name="telefono" label="Telefono de Contacto" label-class="text-lightblue" value="{{ $provider->telefono }}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class="fas fa-phone-volume text-lightblue"></i>

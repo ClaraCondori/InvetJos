@@ -64,6 +64,8 @@ class providerController extends Controller
     public function edit(string $id)
     {
         //
+        $provider = Provider::find($id);
+        return view('sistema.editprovider', compact('provider'));
     }
 
     /**
@@ -72,6 +74,13 @@ class providerController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $provider = Provider::find($id);
+        $provider->nombre = $request->input('nombre');
+        $provider->correo = $request->input('correo');
+        $provider->contacto = $request->input('contacto');
+        $provider->telefono = $request->input('telefono');
+        $provider->save();
+        return back()->with('message', 'Actualizado correctamente');
     }
 
     /**
