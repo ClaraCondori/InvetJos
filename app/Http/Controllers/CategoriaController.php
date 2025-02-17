@@ -59,6 +59,8 @@ class CategoriaController extends Controller
     public function edit(string $id)
     {
         //
+        $categoria = Categoria::find($id);
+        return view('sistema.edircatergoria', compact('categoria'));
     }
 
     /**
@@ -67,6 +69,10 @@ class CategoriaController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $categoria = Categoria::find($id);
+        $categoria->nombre_cat = $request->input('nombre_cat');
+        $categoria->save();
+        return back()->with('message', 'Actualizado correctamente');
     }
 
     /**
@@ -75,5 +81,8 @@ class CategoriaController extends Controller
     public function destroy(string $id)
     {
         //
+        $categoria = Categoria::find($id);
+        $categoria->delete();
+        return back();
     }
 }
