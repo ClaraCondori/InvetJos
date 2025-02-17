@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('detalle_e_s', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('proveedores_id');
+            $table->foreign('proveedores_id') // Columna en esta tabla
+              ->references('id')            // Columna en la tabla referenciada
+              ->on('providers')     // Nombre de la tabla referenciada
+              ->onDelete('cascade');        // Opcional: define el comportamiento al eliminar (cascade, set null, etc.)
+            $table->string('cantidad');
             $table->timestamps();
         });
     }

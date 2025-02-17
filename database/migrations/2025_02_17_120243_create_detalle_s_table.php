@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('detalle_s', function (Blueprint $table) {
             $table->id();
+            $table->string('cantidad');
+            $table->string('total');
             $table->timestamps();
         });
     }
