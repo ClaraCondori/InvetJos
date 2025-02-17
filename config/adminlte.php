@@ -421,12 +421,12 @@ return [
                 ],
                 [
                     'text' => 'Lista de Productos',
-                    'route' => 'provider.index',
+                    'route' => 'producto.index',
                     'icon' => 'fas fa-fw fa-bars',
                 ],
                 [
                     'text' => 'Nuevo Producto',
-                    'route' => 'provider.create',
+                    'route' => 'producto.create',
                     'icon' => 'fas fa-fw fa-file',
                 ],
             ],

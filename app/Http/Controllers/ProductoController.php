@@ -12,6 +12,7 @@ class ProductoController extends Controller
     public function index()
     {
         //
+        return "Lista de productos";
     }
 
     /**
@@ -20,6 +21,7 @@ class ProductoController extends Controller
     public function create()
     {
         //
+        return "nuevo productos";
     }
 
     /**
