@@ -12,6 +12,8 @@ class RolController extends Controller
     public function index()
     {
         //
+        $rol= rol::all();
+        return view( 'sistema.listrol', compact('rol'));
     }
 
     /**
@@ -20,6 +22,7 @@ class RolController extends Controller
     public function create()
     {
         //
+        return view('sistema.addrol');
     }
 
     /**
@@ -28,6 +31,17 @@ class RolController extends Controller
     public function store(Request $request)
     {
         //
+        $validacion = $request->validate([
+            'nombre' => 'required|string', // Regla válida
+        ]);
+    
+        // Crear un nuevo proveedor
+        $rol = new Categoria();
+        $rol->nombre = $request->input('nombre');
+        $rol->save();
+    
+        // Redirigir de vuelta con un mensaje de éxito
+        return back()->with('message', 'Rol creado correctamente.');
     }
 
     /**
@@ -44,6 +58,8 @@ class RolController extends Controller
     public function edit(string $id)
     {
         //
+        $rol = Categoria::find($id);
+        return view('sistema.editrol', compact('rol'));
     }
 
     /**
@@ -52,6 +68,10 @@ class RolController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $rol = Rol::find($id);
+        $rol->nombre = $request->input('nombre');
+        $rol->save();
+        return back()->with('message', 'Actualizado correctamente');
     }
 
     /**
@@ -60,5 +80,8 @@ class RolController extends Controller
     public function destroy(string $id)
     {
         //
+        $rol = Rol::find($id);
+        $rol->delete();
+        return back();
     }
 }
