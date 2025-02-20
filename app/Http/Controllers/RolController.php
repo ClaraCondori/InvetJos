@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Rol;
 
 class RolController extends Controller
 {
@@ -36,7 +37,7 @@ class RolController extends Controller
         ]);
     
         // Crear un nuevo proveedor
-        $rol = new Categoria();
+        $rol = new Rol();
         $rol->nombre = $request->input('nombre');
         $rol->save();
     
