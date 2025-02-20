@@ -22,9 +22,9 @@ return new class extends Migration
                   ->onDelete('cascade');         // Opcional: define el comportamiento al eliminar (cascade, set null, etc.)
             $table->string('nombre');
             $table->string('descripcion');
-            $table->string('precio_vent');
-            $table->string('precio_comp');
-            $table->string('cantidad');
+            $table->decimal('precio_vent', 8, 2); // Columna para el precio de venta (8 dígitos en total, 2 decimales)
+            $table->decimal('precio_comp', 8, 2); // Columna para el precio de compra (8 dígitos en total, 2 decimales)
+            $table->integer('cantidad');
             $table->timestamps();
         });
     }
