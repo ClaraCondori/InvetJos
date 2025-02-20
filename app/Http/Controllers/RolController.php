@@ -59,7 +59,7 @@ class RolController extends Controller
     public function edit(string $id)
     {
         //
-        $rol = Categoria::find($id);
+        $rol = Rol::find($id);
         return view('sistema.editrol', compact('rol'));
     }
 
