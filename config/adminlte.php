@@ -339,12 +339,38 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         ['header' => 'OPCIONES'],
-        //[
-            //'text' => 'Lista de Proveedores',
-            //'route' => 'provider.index',
-            //'icon' => 'fas fa-fw fa-user',
-        //],
-        
+        [
+            'text' => 'USUARIOS',
+            'icon' => 'fas fa-fw fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Lista de Usuarios',
+                    'route' => 'provider.index',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text' => 'Nuevo Usuario',
+                    'route' => 'provider.create',
+                    'icon' => 'fas fa-fw fa-file',
+                ],
+                [
+                    'text' => 'Roles',
+                    'icon' => 'fas fa-fw fa-plus',
+                    'submenu' => [
+                        [
+                            'text' => 'Lista de Roles',
+                            'route' => 'rol.index',
+                            'icon' => 'fas fa-fw fa-bars',
+                        ],
+                        [
+                            'text' => 'Nuevo Rol',
+                            'route' => 'rol.create',
+                            'icon' => 'fas fa-fw fa-file',
+                        ],
+                    ],
+                ],
+            ],
+        ], 
         [
             'text' => 'PROVEEDORES',
             'icon' => 'fas fa-fw fa-truck',
