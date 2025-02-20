@@ -29,6 +29,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('/rol', RolController::class)->names('rol');
     Route::resource('/producto', ProductoController::class)-> names ('producto');
     Route::resource('/provider', providerController::class)-> names ('provider');
     Route::resource('/categoria', CategoriaController::class)->names('categoria');
