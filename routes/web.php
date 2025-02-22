@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\providerController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Hash;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +31,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('/user', UserController::class)-> names ('user');
     Route::resource('/rol', RolController::class)->names('rol');
     Route::resource('/producto', ProductoController::class)-> names ('producto');
     Route::resource('/provider', providerController::class)-> names ('provider');

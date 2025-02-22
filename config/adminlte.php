@@ -345,12 +345,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Lista de Usuarios',
-                    'route' => 'provider.index',
+                    'route' => 'user.index',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [
                     'text' => 'Nuevo Usuario',
-                    'route' => 'provider.create',
+                    'route' => 'user.create',
                     'icon' => 'fas fa-fw fa-file',
                 ],
                 [
