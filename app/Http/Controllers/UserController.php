@@ -72,6 +72,10 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+        $user = User::find($id);
+        $rol = Rol::all();
+        $estados = ['ACTIVO', 'INACTIVO']; 
+        return view('sistema.edituser', compact('user' , 'rol', 'estados'));
 
     }
 
@@ -81,6 +85,15 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->telefono = $request->input('telefono');
+        $user->rol_id = $request->input('rol_id');
+        $user->estado = $request->input('estado');
+        $user->save();
+        return back()->with('message', 'Actualizado correctamente');
     }
 
     /**
