@@ -71,9 +71,8 @@ $config = [
     
 <script>
         $(document).ready(function() {
-            $('formEliminar').submit(function(e) {
+            $('.formEliminar').submit(function(e) {
                 e.preventDefault();
-
                 Swal.fire({
                     title: "¿Desea eliminar el registro?",
                     text: "¡Esta acción no se puede deshacer!",

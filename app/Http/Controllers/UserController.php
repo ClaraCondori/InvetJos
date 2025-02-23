@@ -50,7 +50,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = Hash::make($request->input('password'));
         $user->telefono = $request->input('telefono');
         $user->rol_id = $request->input('rol_id');
         $user->estado = $request->input('estado');
@@ -89,5 +89,8 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        $user = User::find($id);
+        $user->delete();
+        return back();
     }
 }
