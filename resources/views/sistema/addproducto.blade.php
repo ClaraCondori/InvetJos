@@ -46,7 +46,14 @@
                     </x-slot>
                     {{ old('descripcion') }}
                 </x-adminlte-textarea>
-
+                 <!-- Campo para el precio de compra -->
+                <x-adminlte-input name="precio_comp" label="Precio de compra" label-class="text-lightblue" value="{{ old('precio_comp') }}">
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text">
+                            <i class="fas fa-credit-card text-lightblue"></i>
+                        </div>
+                    </x-slot>
+                </x-adminlte-input>
                 <!-- Campo para el precio de venta -->
                 <x-adminlte-input name="precio_vent" label="Precio de venta" label-class="text-lightblue" value="{{ old('precio_vent') }}">
                     <x-slot name="prependSlot">
@@ -55,18 +62,8 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-
-                <!-- Campo para el precio de compra -->
-                <x-adminlte-input name="precio_comp" label="Precio de compra" label-class="text-lightblue" value="{{ old('precio_comp') }}">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                            <i class="fas fa-credit-card text-lightblue"></i>
-                        </div>
-                    </x-slot>
-                </x-adminlte-input>
-
                 <!-- Campo para la cantidad -->
-                <x-adminlte-input name="cantidad" label="Cantidad" type="number" igroup-size="sm" min=1 max=10 value="{{ old('cantidad') }}">
+                <x-adminlte-input name="cantidad" label="Cantidad" type="number" igroup-size="sm" min=1 max=100 value="{{ old('cantidad') }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text">
                             <i class="fas fa-hashtag text-lightblue"></i>

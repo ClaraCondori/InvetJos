@@ -7,6 +7,7 @@ use App\Http\Controllers\providerController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,5 @@ Route::middleware([
     Route::resource('/provider', providerController::class)-> names ('provider');
     Route::resource('/categoria', CategoriaController::class)->names('categoria');
     Route::resource('/rol', RolController::class)-> names ('rol');
+    Route::resource('/movimiento', MovimientoController::class)-> names ('movimiento');
 });

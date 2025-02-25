@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>MULTITIENDAS</br>JOSELITO',
+    'logo' => '<b>MULTITIENDAS</br> JOSELITO',
     'logo_img' => 'vendor/adminlte/dist/img/logo_redondo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -320,22 +320,15 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url' => 'admin/settings',
+            'url' => 'user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
-            'url' => 'admin/settings',
+            'url' => 'user/profile',
             'icon' => 'fas fa-fw fa-lock',
         ],
         ['header' => 'OPCIONES'],
@@ -380,30 +373,6 @@ return [
                     'route' => 'provider.index',
                     'icon' => 'fas fa-fw fa-list',
                 ],
-                //[
-                    //'text' => 'level_one',
-                    //'url' => '#',
-                    //'submenu' => [
-                        //[
-                            //'text' => 'level_two',
-                          //  'url' => '#',
-                        //],
-                        //[
-                            //'text' => 'level_two',
-                            //'url' => '#',
-                            //'submenu' => [
-                                //[
-                                    //'text' => 'level_three',
-                                  //  'url' => '#',
-                                //],
-                              //  [
-                            //        'text' => 'level_three',
-                          //          'url' => '#',
-                        //        ],
-                      //      ],
-                    //    ],
-                  //  ],
-                //],
                 [
                     'text' => 'Nuevo Proveedor',
                     'route' => 'provider.create',
@@ -429,20 +398,6 @@ return [
                             'route' => 'categoria.create',
                             'icon' => 'fas fa-fw fa-file',
                         ],
-                        //[
-                            //'text' => 'level_two',
-                            //'url' => '#',
-                            //'submenu' => [
-                                //[
-                                    //'text' => 'level_three',
-                                    //'url' => '#',
-                                //],
-                                //[
-                                    //'text' => 'level_three',
-                                    //'url' => '#',
-                                //],
-                            //],
-                        //],
                     ],
                 ],
                 [
@@ -457,22 +412,39 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
+            'text' => 'MOVIMIENTOS',
+            'icon' => 'fas fa-fw fa-tag', 
+            'submenu' => [
+                [
+                    'text' => 'Lista de Movimientos',
+                    'route' => 'movimiento.index',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text' => 'Nuevo Movimiento',
+                    'route' => 'movimiento.create',
+                    'icon' => 'fas fa-fw fa-file',
+                ],
+            ],
         ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],
+        //[
+            
+        //'text' => 'SALIDAS',
+            //'icon' => 'fas fa-fw fa-truck',
+            //'submenu' => [
+                //[
+                    //'text' => 'Lista de Salidas',
+                    //'route' => '',
+                    //'icon' => 'fas fa-fw fa-list',
+                //],
+                //[
+                    //'text' => 'Nueva Salida',
+                    //'route' => '',
+                    //'icon' => 'fas fa-fw fa-file',
+                //],
+            //],
+        //],
     ],
 
     /*

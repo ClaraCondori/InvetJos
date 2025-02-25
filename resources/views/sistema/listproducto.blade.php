@@ -10,11 +10,11 @@
         @php
 $heads = [
     'ID',
-    'ID CATEGORIA',
+    'CATEGORIA',
     'NOMBRE',
     'DESCRIPCION',
-    'PRECIO DE VENTA',
-    ['label' => 'PRECIO DE COMPRA', 'width' => 20],
+    'PRECIO DE COMPRA',
+    ['label' => 'PRECIO DE VENTA', 'width' => 20],
     ['label' => 'CANTIDAD', 'width' => 20],
     ['label' => 'OPCIONES', 'no-export' => true, 'width' => 20],
 ];
@@ -42,8 +42,8 @@ $config = [
             <td>{{ $productos->categoria->nombre_cat }}</td>
             <td>{{ $productos->nombre }}</td>
             <td>{{ $productos->descripcion }}</td>
-            <td>{{ $productos->precio_vent }}</td>
             <td>{{ $productos->precio_comp }}</td>
+            <td>{{ $productos->precio_vent }}</td>
             <td>{{ $productos->cantidad }}</td>
             <td> <a href="{{ route('producto.edit', $productos) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
                     <i class="fa fa-lg fa-fw fa-pen"></i>
