@@ -50,7 +50,7 @@ class ProductoController extends Controller
         $producto->descripcion = $request->input('descripcion');
         $producto->precio_vent = $request->input('precio_vent');
         $producto->precio_comp = $request->input('precio_comp');
-        $producto->cantidad = $request->input('cantidad');
+        $producto->cantidad = $request->input('cantidad')->default(0);
         $producto->save();
 
         // Redirigir a la lista de productos con un mensaje de éxito

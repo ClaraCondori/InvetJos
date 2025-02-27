@@ -46,7 +46,7 @@
                     </x-slot>
                     {{ old('descripcion') }}
                 </x-adminlte-textarea>
-                 <!-- Campo para el precio de compra -->
+                <!-- Campo para el precio de compra -->
                 <x-adminlte-input name="precio_comp" label="Precio de compra" label-class="text-lightblue" value="{{ old('precio_comp') }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">

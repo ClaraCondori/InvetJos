@@ -12,8 +12,5 @@ class Movimiento extends Model
     {
         return $this->belongsTo(User::class, 'responsable');
     }
-    public function detalles()
-    {
-        return $this->hasMany(DetalleMovimiento::class);
-    }
+    
 }

@@ -326,11 +326,6 @@ return [
             'url' => 'user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
-        [
-            'text' => 'change_password',
-            'url' => 'user/profile',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
         ['header' => 'OPCIONES'],
         [
             'text' => 'USUARIOS',
@@ -428,23 +423,6 @@ return [
                 ],
             ],
         ],
-        //[
-            
-        //'text' => 'SALIDAS',
-            //'icon' => 'fas fa-fw fa-truck',
-            //'submenu' => [
-                //[
-                    //'text' => 'Lista de Salidas',
-                    //'route' => '',
-                    //'icon' => 'fas fa-fw fa-list',
-                //],
-                //[
-                    //'text' => 'Nueva Salida',
-                    //'route' => '',
-                    //'icon' => 'fas fa-fw fa-file',
-                //],
-            //],
-        //],
     ],
 
     /*
