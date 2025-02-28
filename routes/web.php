@@ -8,6 +8,9 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -33,10 +36,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
     Route::resource('/user', UserController::class)-> names ('user');
-    Route::resource('/rol', RolController::class)->names('rol');
     Route::resource('/producto', ProductoController::class)-> names ('producto');
     Route::resource('/provider', providerController::class)-> names ('provider');
     Route::resource('/categoria', CategoriaController::class)->names('categoria');
-    Route::resource('/rol', RolController::class)-> names ('rol');
     Route::resource('/movimiento', MovimientoController::class)-> names ('movimiento');
+    Route::resource('/roles', RoleController::class)-> names ('roles');
+    Route::resource('/permisos', PermissionController::class)-> names ('permisos');
+    Route::resource('/usuario', AsignarController::class)-> names ('asignar');
 });

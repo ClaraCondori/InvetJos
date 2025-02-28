@@ -49,22 +49,6 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-
-                <!-- Selector de rol -->
-                <x-adminlte-select2 name="rol_id" label="Rol" igroup-size="lg" label-class="text-lightblue" data-placeholder="Seleccione un rol">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                            <i class="fas fa-address-card text-lightblue"></i>
-                        </div>
-                    </x-slot>
-                    <option value="">Seleccione un rol</option>
-                    @foreach ($rol as $role)
-                        <option value="{{ $role->id }}" {{ old('rol_id', $user->rol_id) == $role->id ? 'selected' : '' }}>
-                            {{ $role->nombre }}
-                        </option>
-                    @endforeach
-                </x-adminlte-select2>
-
                 <!-- Selector de estado -->
                 <x-adminlte-select2 name="estado" label="Estado" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione una opción">
                     <x-slot name="prependSlot">

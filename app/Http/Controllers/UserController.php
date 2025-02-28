@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Rol;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -15,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::with('rol')->get();
+        $users= User::all();
         return view('sistema.listuser', compact('users'));
     }
 
@@ -25,12 +24,11 @@ class UserController extends Controller
     public function create()
     {
         //
-        $rol = Rol::all(); // Obtener todos los roles
         $config = [
             'liveSearch' => true, // Habilitar búsqueda en vivo
             'actionsBox' => true, // Mostrar caja de acciones
         ];
-        return view('sistema.adduser', compact('rol', 'config'));
+        return view('sistema.adduser', compact('config'));
     }
 
     /**
@@ -43,7 +41,6 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email|max:75',
             'password' => 'required|string|min:8',
             'telefono' => 'required|string|max:20',
-            'rol_id' => 'required|exists:rols,id', 
             'estado' => 'required|string|in:ACTIVO,INACTIVO',
         ]);
         
@@ -52,7 +49,6 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->telefono = $request->input('telefono');
-        $user->rol_id = $request->input('rol_id');
         $user->estado = $request->input('estado');
         $user->save();
         return redirect()->route('user.index')->with('message', 'Usuario creado correctamente.');
@@ -73,9 +69,9 @@ class UserController extends Controller
     {
         //
         $user = User::find($id);
-        $rol = Rol::all();
+
         $estados = ['ACTIVO', 'INACTIVO']; 
-        return view('sistema.edituser', compact('user' , 'rol', 'estados'));
+        return view('sistema.edituser', compact('user' , 'estados'));
 
     }
 
@@ -90,7 +86,6 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->telefono = $request->input('telefono');
-        $user->rol_id = $request->input('rol_id');
         $user->estado = $request->input('estado');
         $user->save();
         return back()->with('message', 'Actualizado correctamente');

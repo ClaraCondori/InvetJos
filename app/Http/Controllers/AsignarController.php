@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Rol;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
-class RolController extends Controller
+class AsignarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +14,8 @@ class RolController extends Controller
     public function index()
     {
         //
-        $rol= rol::all();
-        return view( 'sistema.listrol', compact('rol'));
+        $users=User::all();
+        return view('sistema.user.listuser', compact('users'));
     }
 
     /**
@@ -23,7 +24,6 @@ class RolController extends Controller
     public function create()
     {
         //
-        return view('sistema.addrol');
     }
 
     /**
@@ -32,17 +32,6 @@ class RolController extends Controller
     public function store(Request $request)
     {
         //
-        $validacion = $request->validate([
-            'nombre' => 'required|string', // Regla válida
-        ]);
-    
-        // Crear un nuevo proveedor
-        $rol = new Rol();
-        $rol->nombre = $request->input('nombre');
-        $rol->save();
-    
-        // Redirigir de vuelta con un mensaje de éxito
-        return back()->with('message', 'Rol creado correctamente.');
     }
 
     /**
@@ -58,10 +47,11 @@ class RolController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $rol = Rol::find($id);
-        return view('sistema.editrol', compact('rol'));
-    }
+        $user = User::find($id); // Corregido: Usar User::find en lugar de Users::find
+        // Obtener todos los roles
+        $roles = Role::all();
+        return view('sistema.user.userRol', compact('user', 'roles'));
+}
 
     /**
      * Update the specified resource in storage.
@@ -69,10 +59,9 @@ class RolController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $rol = Rol::find($id);
-        $rol->nombre = $request->input('nombre');
-        $rol->save();
-        return back()->with('message', 'Actualizado correctamente');
+        $user=User::find($id);
+        $user->Roles()->sync($request->roles);
+        return redirect()->route('asignar.edit',$user);
     }
 
     /**
@@ -81,8 +70,5 @@ class RolController extends Controller
     public function destroy(string $id)
     {
         //
-        $rol = Rol::find($id);
-        $rol->delete();
-        return back();
     }
 }

@@ -326,36 +326,36 @@ return [
             'url' => 'user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
-        ['header' => 'OPCIONES'],
+        ['header' => 'USUARIOS'],
+        [
+            'text' => 'ROLES',
+            'route' => 'roles.index',
+            'icon' => 'fas fa-fw fa-user-plus',
+        ],
+        [
+            'text' => 'PERMISOS',
+            'route' => 'permisos.index',
+            'icon' => 'fas fa-fw fa-user-lock',
+        ],
         [
             'text' => 'USUARIOS',
+            'route' => 'asignar.index',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        ['header' => 'OPCIONES'],
+        [
+            'text' => 'PERSONAL',
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [
                 [
-                    'text' => 'Lista de Usuarios',
+                    'text' => 'Lista de Personal',
                     'route' => 'user.index',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [
-                    'text' => 'Nuevo Usuario',
+                    'text' => 'Nuevo Personal',
                     'route' => 'user.create',
                     'icon' => 'fas fa-fw fa-file',
-                ],
-                [
-                    'text' => 'Roles',
-                    'icon' => 'fas fa-fw fa-plus',
-                    'submenu' => [
-                        [
-                            'text' => 'Lista de Roles',
-                            'route' => 'rol.index',
-                            'icon' => 'fas fa-fw fa-bars',
-                        ],
-                        [
-                            'text' => 'Nuevo Rol',
-                            'route' => 'rol.create',
-                            'icon' => 'fas fa-fw fa-file',
-                        ],
-                    ],
                 ],
             ],
         ], 

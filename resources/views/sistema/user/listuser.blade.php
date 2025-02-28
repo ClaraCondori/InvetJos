@@ -1,23 +1,19 @@
 @extends('adminlte::page')
-@section('title', 'USUARIOS')
+@section('title', 'ROLES')
 @section('content_header')
-    <h1>TODOS LOS USUARIOS</h1>
+    <h1>ADMINISTRACION DE USUARIOS Y ROLES</h1>
 @stop
 @section('content')
-    <p>Lista de usuarios del sistema</p>
+    <p>Administracion de usuarios y roles</p>
     <div class="card">
-        <div class="card-head">
-        <x-adminlte-button class="btn-flat" type="submit" label="Nuevo" theme="primary" icon="fas fa-lg fa-user" class="float-right mt-2 mr-2" />
+        <div class="card-header">
+            <x-adminlte-button label="Nuevo" theme="primary" icon="fas fa-key" class="float-right" data-toggle="modal" data-target="#modalPurple" />
         </div>
         <div class="card-body">
         @php
 $heads = [
     'ID',
     'NOMBRE',
-    'CORREO',
-    'CONTRASEÑA',
-    ['label' => 'TELEFONO', 'width' => 20],
-    ['label' => 'ESTADO', 'width' => 20],
     ['label' => 'Actions', 'no-export' => true, 'width' => 20],
 ];
 
@@ -42,15 +38,11 @@ $config = [
     <tr>
         <td>{{ $user->id }}</td>
         <td>{{ $user->name }}</td>
-        <td>{{ $user->email }}</td>
-        <td>{{ $user->password }}</td>
-        <td>{{ $user->telefono }}</td>
-        <td>{{ $user->estado }}</td>
         <td> 
-            <a href="{{ route('user.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+            <a href="{{ route('asignar.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
-            <form style="display: inline" action="{{ route('user.destroy', $user) }}" method="POST" class="formEliminar">
+            <form style="display: inline" action="{{ route('roles.destroy', $user) }}" method="POST" class="formEliminar">
                 @csrf
                 @method('delete')
                 {!! $btnDelete !!}
