@@ -31,7 +31,11 @@ return [
     */
 
     'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'use_full_favicon' => true,
+    'favicon' => [
+    'enabled' => true, // Habilitar favicon
+    'url' => 'vendor/adminlte/dist/img/logo_redondo.png', // Ruta del favicon
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +67,7 @@ return [
     |
     */
 
-    'logo' => '<b>MULTITIENDAS</br> JOSELITO',
+    'logo' => '<br>MULTITIENDAS</br> JOSELITO',
     'logo_img' => 'vendor/adminlte/dist/img/logo_redondo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -257,7 +261,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -377,7 +381,7 @@ return [
         ],
         [
             'text' => 'PRODUCTOS',
-            'icon' => 'fas fa-fw fa-store',
+            'icon' => 'fas fa-fw fa-box',
             'submenu' => [
                 [
                     'text' => 'Categorias',
@@ -409,7 +413,7 @@ return [
         ],
         [
             'text' => 'MOVIMIENTOS',
-            'icon' => 'fas fa-fw fa-tag', 
+            'icon' => 'fas fa-fw fa-exchange-alt', 
             'submenu' => [
                 [
                     'text' => 'Lista de Movimientos',
