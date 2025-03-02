@@ -15,6 +15,7 @@ class Producto extends Model
         'precio_vent',
         'precio_comp',
         'cantidad',
+        'eatado',
     ];
 
     // Relación "pertenece a" con el modelo Categoria

@@ -11,12 +11,10 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // Obtener todos los productos
-        $productos = Producto::all();
-        return view('sistema.listproducto', compact('productos'));
-    }
+    public function index() {
+    $productos = Producto::where('estado', true)->get();
+    return view('sistema.listproducto', compact('productos'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -50,11 +48,11 @@ class ProductoController extends Controller
         $producto->descripcion = $request->input('descripcion');
         $producto->precio_vent = $request->input('precio_vent');
         $producto->precio_comp = $request->input('precio_comp');
-        $producto->cantidad = $request->input('cantidad')->default(0);
+        $producto->cantidad = $request->input('cantidad',0);
         $producto->save();
 
         // Redirigir a la lista de productos con un mensaje de éxito
-        return redirect()->route('producto.index')->with('message', 'Producto creado correctamente.');
+        return back()->with('message', 'Producto creado correctamente.');
     }
 
     /**
@@ -96,11 +94,22 @@ class ProductoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
-        $producto = Producto::find($id);
-        $producto->delete();
-        return back();
+    $producto = Producto::findOrFail($id);
+    $producto->estado = false;
+    $producto->save();
+    return back(); 
+}
+    public function inactivos()
+    {
+    $productos = Producto::where('estado', false)->get();
+    return view('sistema.productoinactivos', compact('productos'));
     }
+    public function activar($id){
+    $producto = Producto::findOrFail($id);
+    $producto->estado = true;
+    $producto->save();
+    return back()->with('message', 'Producto activado correctamente.');
+}
 }

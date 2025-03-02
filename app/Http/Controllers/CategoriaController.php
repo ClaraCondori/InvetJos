@@ -13,8 +13,8 @@ class CategoriaController extends Controller
     public function index()
     {
         //
-        $categoria= Categoria::all();
-        return view( 'sistema.listcategoria', compact('categoria'));
+        $categoria = Categoria::where('estado', true)->get();
+        return view('sistema.listcategoria', compact('categoria'));
     }
 
     /**
@@ -81,8 +81,20 @@ class CategoriaController extends Controller
     public function destroy(string $id)
     {
         //
-        $categoria = Categoria::find($id);
-        $categoria->delete();
+        $categoria = Categoria::findOrFail($id);
+        $categoria->estado = false; // Cambia el estado a inactivo
+        $categoria->save();
         return back();
+    }
+    public function inactivos()
+    {
+    $categoria = Categoria::where('estado', false)->get();
+    return view('sistema.inactivocat', compact('categoria')); 
+    }
+    public function activar($id){
+    $categoria = Categoria::findOrFail($id);
+    $categoria->estado = true;
+    $categoria->save();
+    return back()->with('message', 'Producto activado correctamente.');
     }
 }

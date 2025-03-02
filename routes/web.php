@@ -42,5 +42,13 @@ Route::middleware([
     Route::resource('/movimiento', MovimientoController::class)-> names ('movimiento');
     Route::resource('/roles', RoleController::class)-> names ('roles');
     Route::resource('/permisos', PermissionController::class)-> names ('permisos');
-    Route::resource('/usuario', AsignarController::class)-> names ('asignar');
+    Route::resource('/asignar', AsignarController::class)-> names ('asignar');
+    Route::get('/inactivos', [ProductoController::class, 'inactivos'])->name('sistema.productoinactivos');
+    Route::put('/activar/{id}', [ProductoController::class, 'activar'])->name('productos.activar');
+    Route::get('/inactivosCat', [CategoriaController::class, 'inactivos'])->name('sistema.inactivocat');
+    Route::put('/categorias/activar/{id}', [CategoriaController::class, 'activar'])->name('categorias.activar');
+    Route::get('/inactivosProv', [providerController::class, 'inactivos'])->name('sistema.inactivoprov');
+    Route::put('/prov/activar/{id}', [providerController::class, 'activar'])->name('providers.activar');
+    Route::get('/inactivosUser', [UserController::class, 'inactivos'])->name('sistema.inactivouser');
+    Route::put('/user/activar/{id}', [UserController::class, 'activar'])->name('user.activar');
 });

@@ -11,6 +11,7 @@
 $heads = [
     'ID',
     'NOMBRE CATEGORIA',
+    'ESTADO',
 ];
 
 $btnEdit = '';
@@ -34,6 +35,7 @@ $config = [
         <tr>
             <td>{{ $categorias->id }}</td>
             <td>{{ $categorias->nombre_cat }}</td>
+            <td>{{ $categorias->estado }}</td>
             <td> <a href= "{{route('categoria.edit', $categorias)}}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
@@ -46,6 +48,11 @@ $config = [
         </tr>
     @endforeach
 </x-adminlte-datatable>
+        </div>
+        <div class="card-footer">
+        <a href="{{ route('sistema.inactivocat') }}" class="btn btn-info float-right text-white mx-1 shadow">
+            <i class="fas fa-info-circle"></i> Ver desactivados
+        </a>
         </div>
     </div>
 @stop

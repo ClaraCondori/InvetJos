@@ -10,9 +10,6 @@
     <p>Ingrese los datos del nuevo proveedor</p>
     <div class="card">
     @if (session()->has('message'))
-        <x-adminlte-alert theme="success" title="Éxito">
-            {{ session('message') }}
-        </x-adminlte-alert>
     @endif
         <div class="card-body">
         <form action="{{ route('provider.store') }}" method="POST">
@@ -53,7 +50,7 @@
             </x-slot>
         </x-adminlte-input>
 
-        <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="primary" icon="fas fa-lg fa-save"/>
+        <x-adminlte-button class="btn-flat" type="submit" label="Guardar" theme="primary" icon="fas fa-lg fa-save"/>
     </form>
         </div>
     </div>

@@ -16,6 +16,7 @@ $heads = [
     'PRECIO DE COMPRA',
     ['label' => 'PRECIO DE VENTA', 'width' => 20],
     ['label' => 'CANTIDAD', 'width' => 20],
+    ['label' => 'ESTADO', 'width' => 20],
     ['label' => 'OPCIONES', 'no-export' => true, 'width' => 20],
 ];
 
@@ -45,6 +46,7 @@ $config = [
             <td>{{ $productos->precio_comp }}</td>
             <td>{{ $productos->precio_vent }}</td>
             <td>{{ $productos->cantidad }}</td>
+            <td>{{ $productos->estado }}</td>
             <td> <a href="{{ route('producto.edit', $productos) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
                     <i class="fa fa-lg fa-fw fa-pen"></i>
                 </a>
@@ -59,6 +61,11 @@ $config = [
         </tr>
     @endforeach
 </x-adminlte-datatable>
+        </div>
+        <div class="card-footer">
+        <a href="{{ route('sistema.productoinactivos') }}" class="btn btn-info float-right text-white mx-1 shadow">
+            <i class="fas fa-info-circle"></i> Ver desactivados
+        </a>
         </div>
     </div>
 @stop

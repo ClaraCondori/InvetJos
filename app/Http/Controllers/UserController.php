@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users= User::all();
+        $users = User::where('estado', 'activo')->get();
         return view('sistema.listuser', compact('users'));
     }
 
@@ -97,8 +97,25 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
-        $user = User::find($id);
-        $user->delete();
+        $user = User::findOrFail($id);
+        $user->estado = 'inactivo';
+        $user->save();
         return back();
     }
+    public function inactivos()
+    {
+    
+        $users = User::where('estado', 'inactivo')->get();
+        return view('sistema.inactivouser', compact('users'));
+    }
+    public function activar($id)
+    {
+    // Buscar al usuario
+    $user = User::findOrFail($id);
+    // Cambiar el estado a "activo"
+    $user->estado = 'activo';
+    $user->save();
+    // Redirigir con un mensaje de éxito
+    return back()->with('message', 'Producto activado correctamente.');
+}
 }

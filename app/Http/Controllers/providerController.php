@@ -12,8 +12,8 @@ class providerController extends Controller
      */
     public function index()
     {
-        $provider= Provider::all();
-        return view( 'sistema.listprovider', compact('provider'));
+        $provider = Provider::where('estado', true)->get();
+        return view('sistema.listprovider', compact('provider'));
     }
 
     /**
@@ -89,8 +89,20 @@ class providerController extends Controller
     public function destroy(string $id)
     {
         //
-        $proveedor = Provider::find($id);
-        $proveedor->delete();
-        return back();
+        $provider = Provider::findOrFail($id);
+        $provider->estado = false;
+        $provider->save();
+        return back(); 
+    }
+    public function inactivos()
+    {
+    $provider = Provider::where('estado', false)->get();
+    return view('sistema.inactivoprov', compact('provider'));
+    }
+    public function activar($id){
+    $provider = Provider::findOrFail($id);
+    $provider->estado = true;
+    $provider->save();
+    return back()->with('message', 'Producto activado correctamente.');
     }
 }

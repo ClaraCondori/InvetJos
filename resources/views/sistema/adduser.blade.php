@@ -40,16 +40,6 @@
                             </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-select2 name="estado" label="Estado" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione una opcion...">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                            <i class="fas fa-inbox text-lightblue"></i>
-                        </div>
-                    </x-slot>
-                <option value="">Seleccionar</option>
-                    <option>ACTIVO</option>
-                    <option>INACTIVO</option>
-                </x-adminlte-select2>
                 <!-- Botón de envío -->
                 <x-adminlte-button class="btn-flat" type="submit" label="Guardar" theme="primary" icon="fas fa-lg fa-save"/>
             </form>

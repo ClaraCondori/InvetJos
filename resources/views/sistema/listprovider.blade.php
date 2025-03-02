@@ -54,6 +54,11 @@ $config = [
     @endforeach
 </x-adminlte-datatable>
         </div>
+        <div class="card-footer">
+        <a href="{{ route('sistema.inactivoprov') }}" class="btn btn-info float-right text-white mx-1 shadow">
+            <i class="fas fa-info-circle"></i> Ver desactivados
+        </a>
+        </div>
     </div>
 @stop
 
