@@ -335,16 +335,19 @@ return [
             'text' => 'ROLES',
             'route' => 'roles.index',
             'icon' => 'fas fa-fw fa-user-plus',
+            //'can' =>'Gestion administrador',
         ],
         [
             'text' => 'PERMISOS',
             'route' => 'permisos.index',
             'icon' => 'fas fa-fw fa-user-lock',
+            //'can' =>'Gestion administrador',
         ],
         [
             'text' => 'USUARIOS',
             'route' => 'asignar.index',
             'icon' => 'fas fa-fw fa-user',
+            //'can' =>'Gestion administrador',
         ],
         ['header' => 'OPCIONES'],
         [
@@ -423,6 +426,17 @@ return [
                 [
                     'text' => 'Nuevo Movimiento',
                     'route' => 'movimiento.create',
+                    'icon' => 'fas fa-fw fa-file',
+                ],
+            ],
+        ],
+        [
+            'text' => 'REPORTES',
+            'icon' => 'fas fa-fw fa-folder', 
+            'submenu' => [
+                [
+                    'text' => 'Nuevo Reporte',
+                    'url' => '/generar-reporte',
                     'icon' => 'fas fa-fw fa-file',
                 ],
             ],

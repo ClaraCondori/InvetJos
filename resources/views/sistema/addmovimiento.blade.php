@@ -1,48 +1,54 @@
 @extends('adminlte::page')
+
 @section('title', 'Movimientos')
+
 @section('content_header')
     <h1>Administración de Movimientos</h1>
 @stop
+
 @section('content')
-    <p>Ingrese informacion del movimiento</p>
+    <p>Ingrese información del movimiento</p>
     <div class="card">
         <div class="card-body">
-                <form action="{{ route('movimiento.store') }}" method="POST">
+            <form action="{{ route('movimiento.store') }}" method="POST">
                 @csrf
-                <x-adminlte-select2 name="tipo" label="Tipo de Movimiento" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione una opcion...">
+                <!-- Tipo de Movimiento -->
+                <x-adminlte-select2 name="tipo" label="Tipo de Movimiento" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione una opción...">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class="fas fa-inbox text-lightblue"></i>
                         </div>
                     </x-slot>
                     <option value="">Seleccione el tipo de movimiento</option>
-                    <option>ENTRADA</option>
-                    <option>SALIDA</option>
+                    <option value="entrada">Entrada</option>
+                    <option value="salida">Salida</option>
                 </x-adminlte-select2>
-                <x-adminlte-input name="fecha" type="date" label="Fecha" label-class="text-lightblue" value="{{ old('fecha', $modelo->fecha ?? '') }}">
+                <!-- Proveedor (solo visible para entradas) -->
+                <div id="provider-field" style="display: none;">
+                    <x-adminlte-select2 name="provider_id" label="Proveedor" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione un proveedor...">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class="fas fa-truck text-lightblue"></i>
+                            </div>
+                        </x-slot>
+                        <option value="">Seleccione un proveedor</option>
+                        @foreach($providers as $provider)
+                            <option value="{{ $provider->id }}">{{ $provider->name }}</option>
+                        @endforeach
+                    </x-adminlte-select2>
+                </div>
+
+                <!-- Fecha del Movimiento -->
+                <x-adminlte-input name="fecha" type="date" label="Fecha del Movimiento" label-class="text-lightblue" value="{{ old('fecha', now()->format('Y-m-d')) }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class="fas fa-calendar-alt text-lightblue"></i>
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-select2 name="responsable" label="Responsable" igroup-size="lg" label-class="text-lightblue" data-placeholder="Seleccione su usuario">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                            <i class="fas fa-user text-lightblue"></i>
-                        </div>
-                    </x-slot>
-                    <!-- Opción vacía para el placeholder -->
-                    <option value="">Seleccione su usuario</option>
-                    <!-- Iterar sobre las categorías -->
-                    @foreach ($responsable as $responsables)
-                        <option value="{{ $responsables->id }}" {{ old('responsables_id') == $responsables->id ? 'selected' : '' }}>
-                            {{ $responsables->name}}
-                        </option>
-                    @endforeach
-                </x-adminlte-select2>
-                <!-- Campo para la descripción del producto -->
-                <x-adminlte-textarea name="observacion" label="Observacion" rows=5 label-class="text-lightblue" igroup-size="sm" placeholder="observacion...">
+
+                <!-- Observación -->
+                <x-adminlte-textarea name="observacion" label="Observación" rows=5 label-class="text-lightblue" igroup-size="sm" placeholder="Ingrese una observación...">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class="fas fa-lg fa-file-alt text-lightblue"></i>
@@ -50,90 +56,94 @@
                     </x-slot>
                     {{ old('observacion') }}
                 </x-adminlte-textarea>
-                <!-- Sección para los detalles del movimiento -->
+
+                <!-- Detalles del Movimiento -->
                 <div id="detalles">
                     <h5>Detalles del Movimiento</h5>
                     <div class="detalle">
-                    <x-adminlte-select2 name="producto" label="Producto" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione un producto...">
+                        <!-- Producto -->
+                        <x-adminlte-select2 name="productos[0][producto_id]" label="Producto" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione un producto...">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
-                                    <i class="fas fa-box text-lightblue"></i> <!-- Cambia el ícono a uno más apropiado -->
+                                    <i class="fas fa-box text-lightblue"></i>
                                 </div>
                             </x-slot>
-                        <option value="">Seleccione un producto</option>
-                        @foreach ($productos as $producto) <!-- Usa $productos en lugar de $producto -->
-                        <option value="{{ $producto->id }}" {{ old('producto') == $producto->id ? 'selected' : '' }}>
-                        {{ $producto->nombre }}
-                        </option>
-                        @endforeach
-                    </x-adminlte-select2>
-                        <x-adminlte-input name="cantidad" type="number" label="Cantidad" label-class="text-lightblue" placeholder="Ingrese la cantidad">
+                            <option value="">Seleccione un producto</option>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}">{{ $product->nombre }}</option>
+                            @endforeach
+                        </x-adminlte-select2>
+
+                        <!-- Cantidad -->
+                        <x-adminlte-input name="productos[0][cantidad]" type="number" label="Cantidad" label-class="text-lightblue" placeholder="Ingrese la cantidad" min="1">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
                                     <i class="fas fa-hashtag text-lightblue"></i>
                                 </div>
                             </x-slot>
                         </x-adminlte-input>
-
-                        <x-adminlte-input name="precio_unitario" type="number" step="0.01" label="Precio Unitario" label-class="text-lightblue" placeholder="Ingrese el precio unitario">
-                            <x-slot name="prependSlot">
-                                <div class="input-group-text">
-                                    <i class="fas fa-dollar-sign text-lightblue"></i>
-                                </div>
-                            </x-slot>
-                        </x-adminlte-input>
                     </div>
                 </div>
+
                 <!-- Botón para agregar más detalles -->
                 <button type="button" id="agregar-detalle" class="btn btn-secondary">
                     <i class="fas fa-plus"></i> Agregar Producto
                 </button>
+
                 <!-- Botón de envío -->
                 <x-adminlte-button class="btn-flat" type="submit" label="Guardar" theme="primary" icon="fas fa-lg fa-save"/>
             </form>
         </div>
     </div>
 @stop
+
 @section('css')
     {{-- Agrega aquí hojas de estilo adicionales --}}
 @stop
+
 @section('js')
     <script>
+        // Mostrar u ocultar el campo de proveedor según el tipo de movimiento
+        document.querySelector('select[name="tipo"]').addEventListener('change', function() {
+            const providerField = document.getElementById('provider-field');
+            if (this.value === 'entrada') {
+                providerField.style.display = 'block';
+            } else {
+                providerField.style.display = 'none';
+            }
+        });
+
+        // Lógica para agregar más detalles de productos
         let contador = 1;
         document.getElementById('agregar-detalle').addEventListener('click', function() {
-    const detallesDiv = document.getElementById('detalles');
-    const nuevoDetalle = `
-        <div class="detalle">
-            <x-adminlte-select2 name="[${contador}][producto_id]" label="Producto" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione un producto...">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">
-                        <i class="fas fa-box text-lightblue"></i>
-                    </div>
-                </x-slot>
-                <option value="">Seleccione un producto</option>
-                @foreach ($productos as $producto) <!-- Usa $productos en lugar de $producto -->
-                    <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
-                @endforeach
-            </x-adminlte-select2>
+            const detallesDiv = document.getElementById('detalles');
+            const nuevoDetalle = `
+                <div class="detalle">
+                    <x-adminlte-select2 name="productos[${contador}][producto_id]" label="Producto" label-class="text-lightblue" igroup-size="lg" data-placeholder="Seleccione un producto...">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class="fas fa-box text-lightblue"></i>
+                            </div>
+                        </x-slot>
+                        <option value="">Seleccione un producto</option>
+                        @foreach($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->nombre }}</option>
+                        @endforeach
+                    </x-adminlte-select2>
 
-            <x-adminlte-input name="[${contador}][cantidad]" type="number" label="Cantidad" label-class="text-lightblue" placeholder="Ingrese la cantidad">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">
-                        <i class="fas fa-hashtag text-lightblue"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input>
-            <x-adminlte-input name="[${contador}][precio_unitario]" type="number" step="0.01" label="Precio Unitario" label-class="text-lightblue" placeholder="Ingrese el precio unitario">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">
-                        <i class="fas fa-dollar-sign text-lightblue"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input>
-        </div>`;
-    detallesDiv.insertAdjacentHTML('beforeend', nuevoDetalle);
-    contador++;
-});
+                    <x-adminlte-input name="productos[${contador}][cantidad]" type="number" label="Cantidad" label-class="text-lightblue" placeholder="Ingrese la cantidad" min="1">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class="fas fa-hashtag text-lightblue"></i>
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                </div>`;
+            detallesDiv.insertAdjacentHTML('beforeend', nuevoDetalle);
+            contador++;
+        });
+
+        // Mostrar mensaje de éxito
         @if (session("message")) 
             $(document).ready(function(){
                 let mensaje = "{{ session('message') }}";

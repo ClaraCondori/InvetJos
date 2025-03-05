@@ -12,6 +12,7 @@ use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AsignarController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +51,10 @@ Route::middleware([
     Route::put('/prov/activar/{id}', [providerController::class, 'activar'])->name('providers.activar');
     Route::get('/inactivosUser', [UserController::class, 'inactivos'])->name('sistema.inactivouser');
     Route::put('/user/activar/{id}', [UserController::class, 'activar'])->name('user.activar');
+    // Mostrar el formulario de selección de datos
+    Route::get('/generar-reporte', [ReporteController::class, 'showForm'])->name('reporte.form');
+    // Previsualizar el reporte
+    Route::get('/previsualizar-reporte', [ReporteController::class, 'previewReport'])->name('reporte.preview');
+    // Descargar el reporte en PDF
+    Route::get('/descargar-reporte', [ReporteController::class, 'downloadReport'])->name('reporte.download');
 });

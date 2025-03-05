@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movimiento;
-use App\Models\User;
+use App\Models\DetalleMovimiento;
+use App\Models\Provider;
 use App\Models\Producto;
+use App\Models\User;
+
 class MovimientoController extends Controller
 {
     /**
@@ -13,8 +16,7 @@ class MovimientoController extends Controller
      */
     public function index()
     {
-        //
-        $movimientos = Movimiento::with(['responsableUser', 'detalles.producto'])->get();
+        $movimientos = Movimiento::with(['responsable', 'detalles.producto'])->get();
         return view('sistema.listmovimientos', compact('movimientos'));
     }
 
@@ -23,10 +25,11 @@ class MovimientoController extends Controller
      */
     public function create()
     {
-        //
-        $responsable = User::all();
-        $productos = Producto::all();
-        return view('sistema.addmovimiento', compact('responsable', 'productos'));
+        $movimientos = Movimiento::all();
+        $providers = Provider::all();
+        $products = Producto::all();
+        $user = User::all();
+        return view('sistema.addmovimiento', compact('movimientos', 'providers', 'products', 'user'));
     }
 
     /**
@@ -34,78 +37,62 @@ class MovimientoController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del movimiento
-    $validacion = $request->validate([
-        'tipo' => 'required|in:ENTRADA,SALIDA',
-        'fecha' => 'required|date',
-        'responsable' => 'required|exists:users,id',
-        'observacion' => 'nullable|string',
-        'detalles' => 'required|array|min:1',
-        'detalles.*.producto_id' => 'required|exists:productos,id',
-        'detalles.*.cantidad' => 'required|integer|min:1',
-        'detalles.*.precio_unitario' => 'required|numeric|min:0',
-    ]);
-
-    // Iniciar una transacción de base de datos
-    DB::beginTransaction();
-
-    try {
+        $request->validate([
+            'tipo' => 'required|in:entrada,salida',
+            'provider_id' => 'nullable|exists:providers,id',
+            'productos' => 'required|array',
+            'productos.*.producto_id' => 'required|exists:productos,id',
+            'productos.*.cantidad' => 'required|integer|min:1',
+            'fecha' => 'required|date',
+        ]);
+    
         // Crear el movimiento
-        $movimiento = new Movimiento();
-        $movimiento->tipo = $request->input('tipo');
-        $movimiento->fecha = $request->input('fecha');
-        $movimiento->responsable = $request->input('responsable');
-        $movimiento->observacion = $request->input('observacion');
-        $movimiento->save();
-
-        // Crear los detalles del movimiento
-        foreach ($request->input('detalles') as $detalle) {
-            $producto = Producto::find($detalle['producto_id']);
-
-            // Verificar si el producto existe
-            if (!$producto) {
-                throw new \Exception("El producto con ID {$detalle['producto_id']} no existe.");
-            }
-
-            // Actualizar el stock según el tipo de movimiento
-            if ($movimiento->tipo == 'ENTRADA') {
-                $producto->cantidad += $detalle['cantidad'];
-            } elseif ($movimiento->tipo == 'SALIDA') {
-                if ($producto->cantidad < $detalle['cantidad']) {
-                    throw new \Exception("No hay suficiente stock para el producto: {$producto->nombre}");
+        $movement = Movimiento::create([
+            'tipo' => $request->tipo,
+            'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
+            'responsable' => auth()->id(), // Asignar el ID del usuario logueado
+            'fecha' => $request->fecha,
+        ]);
+    
+        // Verificar que 'productos' sea un array
+        if (is_array($request->productos)) {
+            foreach ($request->productos as $producto) {
+                // Registrar el detalle del movimiento
+                DetalleMovimiento::create([
+                    'movimiento_id' => $movement->id,
+                    'producto_id' => $producto['producto_id'],
+                    'cantidad' => $producto['cantidad'],
+                ]);
+    
+                // Obtener el producto
+                $productModel = Producto::find($producto['producto_id']);
+    
+                // Validar la cantidad disponible en caso de salida
+                if ($request->tipo === 'salida') {
+                    if ($productModel->cantidad < $producto['cantidad']) {
+                        return back()->withErrors(['productos' => 'No hay suficiente cantidad de ' . $productModel->nombre . ' en inventario.'])->withInput();
+                    }
+                    $productModel->cantidad -= $producto['cantidad']; // Disminuir la cantidad
+                } elseif ($request->tipo === 'entrada') {
+                    $productModel->cantidad += $producto['cantidad']; // Aumentar la cantidad
                 }
-                $producto->cantidad -= $detalle['cantidad'];
+    
+                // Guardar los cambios en la tabla de productos
+                $productModel->save();
             }
-
-            // Guardar el producto con el stock actualizado
-            $producto->save();
-
-            // Crear el detalle del movimiento
-            $detalleMovimiento = new DetalleMovimiento();
-            $detalleMovimiento->movimiento_id = $movimiento->id;
-            $detalleMovimiento->producto_id = $detalle['producto_id'];
-            $detalleMovimiento->cantidad = $detalle['cantidad'];
-            $detalleMovimiento->precio_unitario = $detalle['precio_unitario'];
-            $detalleMovimiento->save();
+        } else {
+            return back()->withErrors(['productos' => 'Los datos de productos no son válidos.'])->withInput();
         }
-
-        // Confirmar la transacción
-        DB::commit();
-
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('movimiento.index')->with('message', 'Movimiento creado correctamente.');
-
-    } catch (\Exception $e) {
-        // Revertir la transacción en caso de error
-        DB::rollBack();
-
-        // Redirigir con un mensaje de error
-        return redirect()->back()->with('error', 'Error al crear el movimiento: ' . $e->getMessage());
+    
+        return redirect()->route('movimiento.index')->with('success', 'Movimiento registrado exitosamente.');
     }
-    }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        //
+        // Lógica para mostrar un movimiento específico
     }
 
     /**
@@ -113,7 +100,7 @@ class MovimientoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Lógica para mostrar el formulario de edición
     }
 
     /**
@@ -121,7 +108,7 @@ class MovimientoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Lógica para actualizar un movimiento
     }
 
     /**
@@ -129,9 +116,6 @@ class MovimientoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $moviento = Movimientoo::find($id);
-        $movimiento->delete();
-        return back();
+        // Lógica para eliminar un movimiento
     }
 }
