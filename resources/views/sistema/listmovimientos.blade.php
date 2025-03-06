@@ -6,6 +6,55 @@
 
 @section('content')
 <p>Lista de Movimientos</p>
+<!-- Formulario de filtrado -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Filtrar Movimientos</h3>
+    </div>
+    <div class="card-body">
+        <form action="{{ route('movimiento.index') }}" method="GET">
+            <div class="row">
+                <!-- Filtro por producto -->
+                <div class="col-md-3">
+                    <label for="producto">Producto</label>
+                    <select name="producto" id="producto" class="form-control">
+                        <option value="">Todos los productos</option>
+                        @foreach($productos as $producto)
+                            <option value="{{ $producto->id }}" {{ request('producto') == $producto->id ? 'selected' : '' }}>
+                                {{ $producto->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Filtro por usuario -->
+                <div class="col-md-3">
+                    <label for="usuario">Usuario</label>
+                    <select name="usuario" id="usuario" class="form-control">
+                        <option value="">Todos los usuarios</option>
+                        @foreach($usuarios as $usuario)
+                            <option value="{{ $usuario->id }}" {{ request('usuario') == $usuario->id ? 'selected' : '' }}>
+                                {{ $usuario->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Filtro por fecha -->
+                <div class="col-md-3">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha" class="form-control" value="{{ request('fecha') }}">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <a href="{{ route('movimiento.index') }}" class="btn btn-secondary">Limpiar Filtros</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="card">
     <div class="card-body">
         @php
@@ -15,8 +64,7 @@
             'FECHA',
             'RESPONSABLE',
             'OBSERVACIÓN',
-            ['label' => 'DETALLES', 'no-export' => true, 'width' => 20],
-            ['label' => 'OPCIONES', 'no-export' => true, 'width' => 20],
+            ['label' => 'OPCIONES', 'no-export' => true, 'width' => 5],
         ];
 
         $config = [
@@ -33,21 +81,20 @@
                     <td>{{ $movimiento->id }}</td>
                     <td>{{ $movimiento->tipo }}</td>
                     <td>{{ $movimiento->fecha }}</td>
-                    <td>{{ $movimiento->responsable }}</td>
-                    <td>{{ $movimiento->observacion }}</td>
+                    <td>{{ $movimiento->responsable}}</td>
+                    <td>{{ $movimiento->observacion}}</td>
                     <td>
                         <button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Ver Detalles" data-toggle="modal" data-target="#detallesModal{{ $movimiento->id }}">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </button>
                     </td>
                     <td>
-                        <form style="display: inline" action="{{ route('movimiento.destroy', $movimiento) }}" method="POST" class="formEliminar">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar">
-                                <i class="fa fa-lg fa-fw fa-trash"></i>
-                            </button>
-                        </form>
+                    <td>
+                    <div class="d-flex justify-content-center">
+                    <a href="{{ route('movimiento.edit', $movimiento) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
+                    <i class="fa fa-lg fa-fw fa-pen"></i>
+                    </a>
+                    </div>
                     </td>
                 </tr>
             @endforeach
@@ -99,23 +146,5 @@
 
 @section('js')
 <script>
-    $(document).ready(function() {
-        $('.formEliminar').submit(function(e) {
-            e.preventDefault();
-            Swal.fire({
-                title: "¿Desea eliminar el registro?",
-                text: "¡Esta acción no se puede deshacer!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            });
-        });
-    });
 </script>
 @stop
