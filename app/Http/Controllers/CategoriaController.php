@@ -33,7 +33,7 @@ class CategoriaController extends Controller
     {
         //
         $validacion = $request->validate([
-            'nombre_cat' => 'required|string', // Regla válida
+            'nombre_cat' => 'required|string',
         ]);
     
         // Crear un nuevo proveedor
@@ -41,7 +41,6 @@ class CategoriaController extends Controller
         $categoria->nombre_cat = $request->input('nombre_cat');
         $categoria->save();
     
-        // Redirigir de vuelta con un mensaje de éxito
         return back()->with('message', 'Categoria creada correctamente.');
     }
 
@@ -82,7 +81,7 @@ class CategoriaController extends Controller
     {
         //
         $categoria = Categoria::findOrFail($id);
-        $categoria->estado = false; // Cambia el estado a inactivo
+        $categoria->estado = false;
         $categoria->save();
         return back();
     }
