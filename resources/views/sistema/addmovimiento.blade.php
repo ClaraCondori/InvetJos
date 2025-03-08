@@ -33,8 +33,8 @@
                         </x-slot>
                         <option value="">Seleccione un proveedor</option>
                         @foreach($providers as $provider)
-                            <option value="{{ $provider->id }}">{{ $provider->name }}</option>
-                        @endforeach
+                                <option value="{{ $provider->id }}">{{ $provider->nombre }}</option>
+                            @endforeach
                     </x-adminlte-select2>
                 </div>
 
