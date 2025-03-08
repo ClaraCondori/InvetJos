@@ -6,66 +6,111 @@
 @section('content')
     <p>Lista de productos</p>
     <div class="card">
+        <div class="card-header">
+            <h5>Filtrar Productos</h5>
+            <form action="{{ route('producto.index') }}" method="GET">
+                <div class="row">
+                    <!-- Filtro por categoría -->
+                    <div class="col-md-3">
+                        <x-adminlte-select2 name="categoria" label="Categoría">
+                            <option value="">Todas las categorías</option>
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}" {{ request('categoria') == $categoria->id ? 'selected' : '' }}>
+                                    {{ $categoria->nombre_cat }}
+                                </option>
+                            @endforeach
+                        </x-adminlte-select2>
+                    </div>
+                    <!-- Filtro por estado -->
+                    <div class="col-md-3">
+                        <x-adminlte-select2 name="estado" label="Estado">
+                            <option value="">Todos los estados</option>
+                            <option value="activo" {{ request('estado') == 'activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="inactivo" {{ request('estado') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                        </x-adminlte-select2>
+                    </div>
+                    <!-- Filtro por cantidad -->
+                    <div class="col-md-3">
+                        <x-adminlte-input name="cantidad" type="number" label="Cantidad mínima" placeholder="Cantidad mínima"
+                            value="{{ request('cantidad') }}" />
+                    </div>
+                    <!-- Filtro por fecha -->
+                    <div class="col-md-3">
+                        <x-adminlte-input name="fecha" type="date" label="Fecha de creación"
+                            value="{{ request('fecha') }}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Filtrar
+                        </button>
+                        <a href="{{ route('producto.index') }}" class="btn btn-default">
+                            <i class="fas fa-sync"></i> Limpiar filtros
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="card-body">
         @php
-$heads = [
-    'ID',
-    'CATEGORIA',
-    'NOMBRE',
-    'DESCRIPCION',
-    'PRECIO DE COMPRA',
-    ['label' => 'PRECIO DE VENTA', 'width' => 20],
-    ['label' => 'CANTIDAD', 'width' => 20],
-    ['label' => 'ESTADO', 'width' => 20],
-    ['label' => 'OPCIONES', 'no-export' => true, 'width' => 20],
-];
+        $heads = [
+            'ID',
+            'CATEGORIA',
+            'NOMBRE',
+            'DESCRIPCION',
+            'PRECIO DE COMPRA',
+            ['label' => 'PRECIO DE VENTA', 'width' => 20],
+            ['label' => 'CANTIDAD', 'width' => 20],
+            ['label' => 'ESTADO', 'width' => 20],
+            ['label' => 'OPCIONES', 'no-export' => true, 'width' => 20],
+        ];
 
-$btnEdit = '';
-$btnDelete = '<button type="submit"class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                </button>';
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                    <i class="fa fa-lg fa-fw fa-eye"></i>
-                </button>';
+        $config = [
+            'language' => [
+                'url' => 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+            ],
+            'paging' => false, // Deshabilitar paginación
+            'searching' => false, // Deshabilitar búsqueda
+            'ordering' => false, // Deshabilitar ordenamiento
+            'info' => false, // Ocultar información de paginación
+            'autoWidth' => false, // Deshabilitar ajuste automático de ancho
+            'responsive' => true, // Hacer la tabla responsive
+        ];
+    @endphp
 
-$config = [
-    'language' => [
-        'url' => 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-    ]
-];
-@endphp
-
-{{-- Pasar la configuración al componente --}}
-<x-adminlte-datatable id="table1" :heads="$heads" :config="$config">
-    @foreach($productos as $productos)
-        <tr>
-            <td>{{ $productos->id }}</td>
-            <td>{{ $productos->categoria->nombre_cat }}</td>
-            <td>{{ $productos->nombre }}</td>
-            <td>{{ $productos->descripcion }}</td>
-            <td>{{ $productos->precio_comp }}</td>
-            <td>{{ $productos->precio_vent }}</td>
-            <td>{{ $productos->cantidad }}</td>
-            <td>{{ $productos->estado }}</td>
-            <td> <a href="{{ route('producto.edit', $productos) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
-                    <i class="fa fa-lg fa-fw fa-pen"></i>
-                </a>
-                <form style="display: inline" action="{{ route('producto.destroy', $productos) }}" method="POST" class="formEliminar">
-                @csrf
-                @method('delete')
-                <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar">
-                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                </button>
-                </form>
-            </td>
-        </tr>
-    @endforeach
-</x-adminlte-datatable>
+            {{-- Pasar la configuración al componente --}}
+            <x-adminlte-datatable id="table1" :heads="$heads" :config="$config">
+                @foreach($productos as $producto)
+                    <tr>
+                        <td>{{ $producto->id }}</td>
+                        <td>{{ $producto->categoria->nombre_cat }}</td>
+                        <td>{{ $producto->nombre }}</td>
+                        <td>{{ $producto->descripcion }}</td>
+                        <td>{{ $producto->precio_comp }}</td>
+                        <td>{{ $producto->precio_vent }}</td>
+                        <td>{{ $producto->cantidad }}</td>
+                        <td>{{ $producto->estado }}</td>
+                        <td>
+                            <a href="{{ route('producto.edit', $producto) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
+                                <i class="fa fa-lg fa-fw fa-pen"></i>
+                            </a>
+                            <form style="display: inline" action="{{ route('producto.destroy', $producto) }}" method="POST" class="formEliminar">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar">
+                                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </x-adminlte-datatable>
         </div>
         <div class="card-footer">
-        <a href="{{ route('sistema.productoinactivos') }}" class="btn btn-info float-right text-white mx-1 shadow">
-            <i class="fas fa-info-circle"></i> Ver desactivados
-        </a>
+            <a href="{{ route('sistema.productoinactivos') }}" class="btn btn-info float-right text-white mx-1 shadow">
+                <i class="fas fa-info-circle"></i> Ver desactivados
+            </a>
         </div>
     </div>
 @stop
@@ -76,23 +121,22 @@ $config = [
 @stop
 
 @section('js')
-    
-<script>
+    <script>
         $(document).ready(function() {
             $('.formEliminar').submit(function(e) {
-    e.preventDefault();
-    Swal.fire({
-        title: "¿Desea eliminar el registro?",
-        text: "¡Esta acción no se puede deshacer!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar",
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
+                e.preventDefault();
+                Swal.fire({
+                    title: "¿Desea eliminar el registro?",
+                    text: "¡Esta acción no se puede deshacer!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
                 });
             });
         });

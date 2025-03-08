@@ -11,17 +11,35 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-    $productos = Producto::where('estado', true)->get();
-    return view('sistema.listproducto', compact('productos'));
-}
-
+    public function index(Request $request)
+    {
+    // Consulta base para productos activos
+    $query = Producto::where('estado', true);
+    // Filtrar por categoría
+    if ($request->has('categoria') && $request->categoria != '') {
+        $query->where('categoria_id', $request->categoria);
+    }
+    // Filtrar por cantidad mínima
+    if ($request->has('cantidad') && $request->cantidad != '') {
+        $query->where('cantidad', '>=', $request->cantidad);
+    }
+    // Filtrar por fecha de creación
+    if ($request->has('fecha') && $request->fecha != '') {
+        $query->whereDate('created_at', $request->fecha);
+    }
+    // Obtener las categorías para el filtro
+    $categorias = Categoria::all();
+    // Obtener los productos filtrados
+    $productos = $query->get();
+    // Pasar los productos y categorías a la vista
+    return view('sistema.listproducto', compact('productos', 'categorias'));
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        // Obtener todas las categorías
+    
         $categorias = Categoria::all();
         return view('sistema.addproducto', compact('categorias'));
     }
@@ -31,17 +49,16 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        // Validación de los datos del formulario
+        
         $validacion = $request->validate([
             'categoria_id' => 'required|exists:categorias,id',
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'precio_vent' => 'required|numeric|min:0', // Usar numeric para decimales
-            'precio_comp' => 'required|numeric|min:0', // Usar numeric para decimales
+            'precio_vent' => 'required|numeric|min:0', 
+            'precio_comp' => 'required|numeric|min:0', 
             'cantidad' => 'required|integer|min:1',
         ]);
 
-        // Crear un nuevo producto
         $producto = new Producto();
         $producto->categoria_id = $request->input('categoria_id');
         $producto->nombre = $request->input('nombre');
@@ -51,7 +68,7 @@ class ProductoController extends Controller
         $producto->cantidad = $request->input('cantidad',0);
         $producto->save();
 
-        // Redirigir a la lista de productos con un mensaje de éxito
+        
         return back()->with('message', 'Producto creado correctamente.');
     }
 
