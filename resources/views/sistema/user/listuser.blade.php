@@ -6,9 +6,6 @@
 @section('content')
     <p>Administracion de usuarios y roles</p>
     <div class="card">
-        <div class="card-header">
-            <x-adminlte-button label="Nuevo" theme="primary" icon="fas fa-key" class="float-right" data-toggle="modal" data-target="#modalPurple" />
-        </div>
         <div class="card-body">
         @php
 $heads = [
