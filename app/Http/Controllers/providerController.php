@@ -32,13 +32,13 @@ class providerController extends Controller
     
         // Validar los datos del formulario
     $validacion = $request->validate([
-        'nombre' => 'required|string|max:75', // Regla válida
-        'correo' => 'required|email|unique:providers,correo|max:75',  // Regla válida
-        'contacto' => 'required|string|max:75', // Regla válida
-        'telefono' => 'required|numeric|min:15', // Regla válida
+        'nombre' => 'required|string|max:75', 
+        'correo' => 'required|email|unique:providers,correo|max:75', 
+        'contacto' => 'required|string|max:75',
+        'telefono' => 'required|numeric|min:15', 
     ]);
 
-    // Crear un nuevo proveedor
+    
     $provider = new Provider();
     $provider->nombre = $request->input('nombre');
     $provider->correo = $request->input('correo');
@@ -46,7 +46,6 @@ class providerController extends Controller
     $provider->telefono = $request->input('telefono');
     $provider->save();
 
-    // Redirigir de vuelta con un mensaje de éxito
     return back()->with('message', 'Proveedor creado correctamente.');
     }
 
