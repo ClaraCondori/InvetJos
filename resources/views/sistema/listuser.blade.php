@@ -17,7 +17,7 @@
                     'CORREO',
                     'TELEFONO',
                     ['label' => 'ESTADO', 'width' => 20],
-                    ['label' => 'Actions', 'no-export' => true, 'width' => 20],
+                    ['label' => 'ACCIONES', 'no-export' => true, 'width' => 20],
                 ];
 
                 $config = [
@@ -36,6 +36,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->telefono }}</td>
                         <td>{{ $user->estado }}</td>
+                        @role('administrador')
                         <td>
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -48,15 +49,18 @@
                                 </button>
                             </form>
                         </td>
+                        @endrole
                     </tr>
                 @endforeach
             </x-adminlte-datatable>
         </div>
+        @role('administrador')
         <div class="card-footer">
             <a href="{{ route('sistema.inactivouser') }}" class="btn btn-info float-right text-white mx-1 shadow">
                 <i class="fas fa-info-circle"></i> Ver desactivados
             </a>
         </div>
+        @endrole
     </div>
 @stop
 
