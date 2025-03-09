@@ -9,12 +9,13 @@ use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AsignarController;
-use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\MovimientoReporteController;
 
 // Página de inicio (redirige a login si no está autenticado)
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
+
 
 // Agrupar rutas protegidas por autenticación
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -37,11 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/prov/activar/{id}', [ProviderController::class, 'activar'])->name('providers.activar');
     Route::get('/inactivosUser', [UserController::class, 'inactivos'])->name('sistema.inactivouser');
     Route::put('/user/activar/{id}', [UserController::class, 'activar'])->name('user.activar');
-
-    // Rutas de reportes
-    Route::get('/generar-reporte', [ReporteController::class, 'showForm'])->name('reporte.form');
-    Route::get('/previsualizar-reporte', [ReporteController::class, 'previewReport'])->name('reporte.preview');
-    Route::get('/descargar-reporte', [ReporteController::class, 'downloadReport'])->name('reporte.download');
+    Route::get('/movimientos/generar-informe', [MovimientoReporteController::class, 'generarInforme'])->name('movimiento.generarInforme');
 });
 
 // Si no existe auth.php, no lo incluyas
