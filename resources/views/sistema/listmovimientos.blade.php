@@ -89,12 +89,6 @@
                         </button>
                     </td>
                     <td>
-                    <td>
-                    <div class="d-flex justify-content-center">
-                    <a href="{{ route('movimiento.edit', $movimiento) }}" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
-                    <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a>
-                    </div>
                     </td>
                 </tr>
             @endforeach

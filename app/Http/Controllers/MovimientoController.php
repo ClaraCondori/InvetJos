@@ -77,6 +77,7 @@ class MovimientoController extends Controller
             'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
             'responsable' => auth()->id(), 
             'fecha' => $request->fecha,
+            'observacion' => $request->observacion, 
         ]);
     
         if (is_array($request->productos)) {
@@ -180,6 +181,7 @@ class MovimientoController extends Controller
         'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
         'responsable' => auth()->id(),
         'fecha' => $request->fecha,
+        
     ]);
 
     // Registrar los nuevos detalles del movimiento
