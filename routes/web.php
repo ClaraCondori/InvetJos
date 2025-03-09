@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\MovimientoReporteController;
+use App\Http\Controllers\ReporteProductoController;
 
 // Página de inicio (redirige a login si no está autenticado)
 Route::get('/', function () {
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inactivosUser', [UserController::class, 'inactivos'])->name('sistema.inactivouser');
     Route::put('/user/activar/{id}', [UserController::class, 'activar'])->name('user.activar');
     Route::get('/movimientos/generar-informe', [MovimientoReporteController::class, 'generarInforme'])->name('movimiento.generarInforme');
+    Route::get('/reportes/productos', [ReporteProductoController::class, 'mostrarFormulario'])->name('reportes.productos.formulario');
+    Route::get('/reportes/productos/generar', [ReporteProductoController::class, 'generarReporte'])->name('reportes.productos.generar');
 });
 
 // Si no existe auth.php, no lo incluyas
