@@ -324,18 +324,11 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'user/profile',
-            'icon' => 'fas fa-fw fa-user',
-        ],
         ['header' => 'USUARIOS'],
         [
             'text' => 'ROLES',
             'route' => 'roles.index',
             'icon' => 'fas fa-fw fa-user-plus',
-            //'can' =>'Gestion administrador',
         ],
         [
             'text' => 'PERMISOS',
@@ -435,8 +428,13 @@ return [
             'icon' => 'fas fa-fw fa-folder', 
             'submenu' => [
                 [
-                    'text' => 'Nuevo Reporte',
-                    'url' => '/generar-reporte',
+                    'text' => 'Reporte Producto',
+                    'url' => '/reportes/productos',
+                    'icon' => 'fas fa-fw fa-file',
+                ],
+                [
+                    'text' => 'Reporte Movimiento',
+                    'url' => '/movimientos/generar-informe',
                     'icon' => 'fas fa-fw fa-file',
                 ],
             ],
