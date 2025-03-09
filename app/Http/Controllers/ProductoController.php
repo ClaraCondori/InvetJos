@@ -13,25 +13,18 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-    // Consulta base para productos activos
     $query = Producto::where('estado', true);
-    // Filtrar por categoría
     if ($request->has('categoria') && $request->categoria != '') {
         $query->where('categoria_id', $request->categoria);
     }
-    // Filtrar por cantidad mínima
     if ($request->has('cantidad') && $request->cantidad != '') {
         $query->where('cantidad', '>=', $request->cantidad);
     }
-    // Filtrar por fecha de creación
     if ($request->has('fecha') && $request->fecha != '') {
         $query->whereDate('created_at', $request->fecha);
     }
-    // Obtener las categorías para el filtro
     $categorias = Categoria::all();
-    // Obtener los productos filtrados
     $productos = $query->get();
-    // Pasar los productos y categorías a la vista
     return view('sistema.listproducto', compact('productos', 'categorias'));
     }
     /**
@@ -48,30 +41,29 @@ class ProductoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        
-        $validacion = $request->validate([
-            'categoria_id' => 'required|exists:categorias,id',
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio_vent' => 'required|numeric|min:0', 
-            'precio_comp' => 'required|numeric|min:0', 
-            'cantidad' => 'required|integer|min:1',
-        ]);
+{
+    // Validar los datos del formulario
+    $validacion = $request->validate([
+        'categoria_id' => 'required|exists:categorias,id',
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'nullable|string',
+        'precio_comp' => 'required|numeric|min:0',
+        'cantidad' => 'required|integer|min:1',
+    ]);
+    $precioVent = $request->precio_comp * 1.40;
 
-        $producto = new Producto();
-        $producto->categoria_id = $request->input('categoria_id');
-        $producto->nombre = $request->input('nombre');
-        $producto->descripcion = $request->input('descripcion');
-        $producto->precio_vent = $request->input('precio_vent');
-        $producto->precio_comp = $request->input('precio_comp');
-        $producto->cantidad = $request->input('cantidad',0);
-        $producto->save();
+    // Crear el producto
+    $producto = new Producto();
+    $producto->categoria_id = $request->input('categoria_id');
+    $producto->nombre = $request->input('nombre');
+    $producto->descripcion = $request->input('descripcion');
+    $producto->precio_comp = $request->input('precio_comp');
+    $producto->precio_vent = $precioVent;
+    $producto->cantidad = $request->input('cantidad', 0);
+    $producto->save();
 
-        
-        return back()->with('message', 'Producto creado correctamente.');
-    }
-
+    return back()->with('message', 'Producto creado correctamente.');
+}
     /**
      * Display the specified resource.
      */
@@ -96,15 +88,16 @@ class ProductoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $producto = Producto::find($id);
+        $precioVent = $request->precio_comp * 1.30;
         $producto->categoria_id = $request->input('categoria_id');
         $producto->nombre = $request->input('nombre');
         $producto->descripcion = $request->input('descripcion');
-        $producto->precio_vent = $request->input('precio_vent');
         $producto->precio_comp = $request->input('precio_comp');
+        $producto->precio_vent = $precioVent;
         $producto->cantidad = $request->input('cantidad');
         $producto->save();
+    
         return back()->with('message', 'Actualizado correctamente');
     }
 

@@ -61,55 +61,56 @@ class MovimientoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'tipo' => 'required|in:entrada,salida',
-            'provider_id' => 'nullable|exists:providers,id',
-            'productos' => 'required|array',
-            'productos.*.producto_id' => 'required|exists:productos,id',
-            'productos.*.cantidad' => 'required|integer|min:1',
-            'fecha' => 'required|date',
+{
+    $request->validate([
+        'tipo' => 'required|in:entrada,salida',
+        'provider_id' => 'nullable|exists:providers,id',
+        'productos' => 'required|array',
+        'productos.*.producto_id' => 'required|exists:productos,id',
+        'productos.*.cantidad' => 'required|integer|min:1',
+        'productos.*.precio_comp' => 'required_if:tipo,entrada|numeric|min:0', // Validar precio_comp
+        'fecha' => 'required|date',
+    ]);
+
+    // Crear el movimiento
+    $movement = Movimiento::create([
+        'tipo' => $request->tipo,
+        'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
+        'responsable' => auth()->id(),
+        'fecha' => $request->fecha,
+        'observacion' => $request->observacion,
+    ]);
+
+    // Registrar los detalles del movimiento
+    foreach ($request->productos as $producto) {
+        // Crear el detalle del movimiento
+        DetalleMovimiento::create([
+            'movimiento_id' => $movement->id,
+            'producto_id' => $producto['producto_id'],
+            'cantidad' => $producto['cantidad'],
+            'precio_comp' => $request->tipo === 'entrada' ? $producto['precio_comp'] : null, // Guardar precio_comp
         ]);
-    
-        
-        $movement = Movimiento::create([
-            'tipo' => $request->tipo,
-            'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
-            'responsable' => auth()->id(), 
-            'fecha' => $request->fecha,
-            'observacion' => $request->observacion, 
-        ]);
-    
-        if (is_array($request->productos)) {
-            foreach ($request->productos as $producto) {
-                // Registrar el detalle del movimiento
-                DetalleMovimiento::create([
-                    'movimiento_id' => $movement->id,
-                    'producto_id' => $producto['producto_id'],
-                    'cantidad' => $producto['cantidad'],
-                ]);
-    
-                
-                $productModel = Producto::find($producto['producto_id']);
-    
-                
-                if ($request->tipo === 'salida') {
-                    if ($productModel->cantidad < $producto['cantidad']) {
-                        return back()->withErrors(['productos' => 'No hay suficiente cantidad de ' . $productModel->nombre . ' en inventario.'])->withInput();
-                    }
-                    $productModel->cantidad -= $producto['cantidad']; 
-                } elseif ($request->tipo === 'entrada') {
-                    $productModel->cantidad += $producto['cantidad']; 
-                }
-    
-                
-                $productModel->save();
+
+        // Actualizar el inventario y el precio de compra del producto
+        $productModel = Producto::find($producto['producto_id']);
+
+        if ($request->tipo === 'entrada') {
+            // Actualizar el precio de compra del producto
+            $productModel->precio_comp = $producto['precio_comp'];
+            $productModel->precio_vent = $producto['precio_comp'] * 1.40;
+            $productModel->cantidad += $producto['cantidad']; // Añadir al inventario
+        } elseif ($request->tipo === 'salida') {
+            if ($productModel->cantidad < $producto['cantidad']) {
+                return back()->withErrors(['productos' => 'No hay suficiente cantidad de ' . $productModel->nombre . ' en inventario.'])->withInput();
             }
-        } else {
-            return back()->withErrors(['productos' => 'Los datos de productos no son válidos.'])->withInput();
+            $productModel->cantidad -= $producto['cantidad']; // Restar del inventario
         }
-    
-        return redirect()->route('movimiento.index')->with('success', 'Movimiento registrado exitosamente.');
+
+        // Guardar los cambios en el producto
+        $productModel->save();
+    }
+
+    return redirect()->route('movimiento.index')->with('success', 'Movimiento registrado exitosamente.');
     }
 
     /**
@@ -146,8 +147,8 @@ class MovimientoController extends Controller
     /**
  * Update the specified resource in storage.
  */
-    public function update(Request $request, string $id)
-    {
+public function update(Request $request, string $id)
+{
     // Validar los datos del formulario
     $request->validate([
         'tipo' => 'required|in:entrada,salida',
@@ -155,6 +156,7 @@ class MovimientoController extends Controller
         'productos' => 'required|array',
         'productos.*.producto_id' => 'required|exists:productos,id',
         'productos.*.cantidad' => 'required|integer|min:1',
+        'productos.*.precio_comp' => 'required_if:tipo,entrada|numeric|min:0', // Validar precio_comp
         'fecha' => 'required|date',
     ]);
 
@@ -181,7 +183,6 @@ class MovimientoController extends Controller
         'provider_id' => $request->tipo === 'entrada' ? $request->provider_id : null,
         'responsable' => auth()->id(),
         'fecha' => $request->fecha,
-        
     ]);
 
     // Registrar los nuevos detalles del movimiento
@@ -190,11 +191,15 @@ class MovimientoController extends Controller
             'movimiento_id' => $movimiento->id,
             'producto_id' => $producto['producto_id'],
             'cantidad' => $producto['cantidad'],
+            'precio_comp' => $request->tipo === 'entrada' ? $producto['precio_comp'] : null, // Guardar precio_comp
         ]);
 
-        // Actualizar el inventario de productos
+        // Actualizar el inventario y el precio de compra del producto
         $productModel = Producto::find($producto['producto_id']);
         if ($request->tipo === 'entrada') {
+            // Actualizar el precio de compra del producto
+            $productModel->precio_comp = $producto['precio_comp'];
+            $productModel->precio_vent = $producto['precio_comp'] * 1.40;
             $productModel->cantidad += $producto['cantidad']; // Añadir al inventario
         } elseif ($request->tipo === 'salida') {
             if ($productModel->cantidad < $producto['cantidad']) {
@@ -205,7 +210,6 @@ class MovimientoController extends Controller
         $productModel->save();
     }
 
-    // Redirigir con un mensaje de éxito
     return redirect()->route('movimiento.index')->with('success', 'Movimiento actualizado exitosamente.');
     }
 
