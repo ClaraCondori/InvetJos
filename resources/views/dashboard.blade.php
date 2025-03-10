@@ -71,7 +71,6 @@
             </a>
         </div>
     </div>
-
     <!-- Cuadro de movimientos -->
     <div class="col-lg-3 col-6">
         <div class="small-box bg-purple">
@@ -83,6 +82,38 @@
                 <i class="fas fa-exchange-alt"></i> <!-- Ícono de movimientos -->
             </div>
             <a href="{{ route('movimiento.index') }}" class="small-box-footer">
+                Más información <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cuadro de Reportes de Movimientos -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3>Reportes</h3>
+                <p>Reportes de Movimientos</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-chart-line"></i> <!-- Ícono de gráfico de líneas -->
+            </div>
+            <a href="{{ route('movimiento.generarInforme') }}" class="small-box-footer">
+                Más información <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cuadro de Reportes de Productos -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>Reportes</h3>
+                <p>Reportes de Productos</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-chart-bar"></i> <!-- Ícono de gráfico -->
+            </div>
+            <a href="{{ route('reportes.productos.formulario') }}" class="small-box-footer">
                 Más información <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -117,6 +148,7 @@
         </table>
     </div>
 </div>
+
 <!-- Gráfico de productos registrados -->
 <div class="card">
     <div class="card-header">
