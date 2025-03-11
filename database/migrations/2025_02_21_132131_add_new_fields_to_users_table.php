@@ -19,7 +19,7 @@ return new class extends Migration
                     ->on('rols')       
                     ->onDelete('cascade'); 
             $table->string('telefono')->nullable();
-            $table->date('estado')->nullable();
+            $table->string('estado')->nullable();
         });
     }
 
